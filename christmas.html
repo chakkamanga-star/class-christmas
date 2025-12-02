@@ -5,30 +5,267 @@
   <title>Christmas Friend - Pick Your Name</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* (styles unchanged from original file) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      margin: 0;
       min-height: 100vh;
-      font-family: 'Courier New', sans-serif;
+      font-family: 'Arial', sans-serif;
       color: #fff;
       background: linear-gradient(135deg, #1b2735 0%, #090a0f 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 20px;
-      box-sizing: border-box;
       position: relative;
       overflow-x: hidden;
     }
-    /* ... (rest of CSS same as before) ... */
-    .lights { position: fixed; top: 0; left: 0; width: 100%; height: 60px; z-index: 100; display:flex; justify-content:space-around; pointer-events:none; }
-    .snow { position: fixed; top: 0; left: 0; width:100%; height:100%; pointer-events:none; z-index:0; }
-    .container { position: relative; z-index: 10; max-width: 600px; width:100%; background: rgba(0,0,0,0.5); border-radius:20px; padding:30px; margin-top:80px; }
-    .list { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px; }
-    .student { flex: 1 0 40%; max-width:45%; text-align:center; padding:14px 10px; border-radius:12px; background: rgba(255,255,255,0.1); color:#fff; font-weight:bold; text-decoration:none; border:2px solid rgba(255,255,255,0.3); cursor:pointer; transition: all 0.3s ease; position: relative; overflow:hidden; }
-    .student.disabled { cursor: not-allowed; opacity: 0.4; background: rgba(0,0,0,0.4); box-shadow:none; }
-    .admin-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; border-radius:50px; text-decoration:none; }
-    /* keep other styling omitted for brevity; use your original styles */
+    
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 70%, rgba(139, 0, 0, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(0, 100, 0, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(25, 25, 112, 0.2) 0%, transparent 70%);
+      animation: bgPulse 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+    
+    /* Animated Christmas Lights String */
+    .lights {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      z-index: 100;
+      display: flex;
+      justify-content: space-around;
+      pointer-events: none;
+    }
+    
+    .light {
+      width: 15px;
+      height: 25px;
+      border-radius: 0 0 50% 50%;
+      position: relative;
+      animation: lightBlink 1.5s ease-in-out infinite;
+    }
+    
+    .light:nth-child(1) { background: #ff0000; animation-delay: 0s; }
+    .light:nth-child(2) { background: #00ff00; animation-delay: 0.2s; }
+    .light:nth-child(3) { background: #0000ff; animation-delay: 0.4s; }
+    .light:nth-child(4) { background: #ffd700; animation-delay: 0.6s; }
+    .light:nth-child(5) { background: #ff69b4; animation-delay: 0.8s; }
+    .light:nth-child(6) { background: #00ffff; animation-delay: 1s; }
+    .light:nth-child(7) { background: #ff4500; animation-delay: 1.2s; }
+    .light:nth-child(8) { background: #9370db; animation-delay: 1.4s; }
+    
+    @keyframes lightBlink {
+      0%, 100% { opacity: 0.3; box-shadow: 0 0 5px currentColor; }
+      50% { opacity: 1; box-shadow: 0 0 20px currentColor; transform: scale(1.1); }
+    }
+    
+    /* Snowflakes */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #fff;
+      font-size: 1.2em;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+      animation: snowfall linear infinite;
+    }
+    
+    @keyframes snowfall {
+      to {
+        transform: translateY(100vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Floating Ornaments */
+    .ornament {
+      position: fixed;
+      font-size: 2.5em;
+      animation: ornamentFloat 8s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    }
+    
+    @keyframes ornamentFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-30px) rotate(10deg); }
+      75% { transform: translateY(-15px) rotate(-10deg); }
+    }
+    
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 700px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 40px 30px;
+      margin-top: 80px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+                  0 0 0 1px rgba(255, 255, 255, 0.1),
+                  0 0 30px rgba(255, 215, 0, 0.2);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      animation: containerGlow 4s ease-in-out infinite;
+    }
+    
+    @keyframes containerGlow {
+      0%, 100% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.2); }
+      50% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(255, 215, 0, 0.4); }
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 15px;
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8),
+                   0 0 40px rgba(255, 215, 0, 0.4);
+      animation: titleShine 3s ease-in-out infinite;
+    }
+    
+    @keyframes titleShine {
+      0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+      50% { text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.6); }
+    }
+    
+    p {
+      text-align: center;
+      color: #98fb98;
+      font-size: 1.1em;
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(152, 251, 152, 0.5);
+    }
+    
+    p strong {
+      color: #ffeb3b;
+      text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+    }
+    
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 25px;
+    }
+    
+    .student {
+      flex: 1 0 40%;
+      max-width: 45%;
+      text-align: center;
+      padding: 16px 12px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(220, 20, 60, 0.3), rgba(139, 0, 0, 0.4));
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      font-size: 0.95em;
+    }
+    
+    .student::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .student:hover::before {
+      left: 100%;
+    }
+    
+    .student:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: linear-gradient(135deg, rgba(220, 20, 60, 0.5), rgba(139, 0, 0, 0.6));
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+      border-color: #ffd700;
+    }
+    
+    .student.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: none;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .student.disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .note {
+      margin-top: 30px;
+      font-size: 0.95em;
+      color: #ffeb3b;
+      text-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
+    }
+    
+    .admin-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      padding: 15px 25px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff4500 0%, #8b0000 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 5px 20px rgba(255, 69, 0, 0.5);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 2px solid rgba(255, 215, 0, 0.5);
+    }
+    
+    .admin-btn:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 30px rgba(255, 69, 0, 0.8);
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8em; }
+      .student { flex: 1 0 90%; max-width: 100%; font-size: 0.9em; }
+      .container { padding: 30px 20px; }
+    }
   </style>
 </head>
 <body>
@@ -40,7 +277,7 @@
   <div class="snow" id="snow"></div>
 
   <div class="container">
-    <h1>🎄 It's Christmas Time My Dear! 🎁</h1>
+    <h1>🎄 It's Christmas Time My Dear! 🎅</h1>
     <p>Click on <strong>your own name</strong> only. Bala Sir watches Everything.</p>
 
     <div id="studentList" class="list"></div>
@@ -48,101 +285,63 @@
     <p class="note">✨ Once you open your Christmas friend, your name will be locked on this device. ✨</p>
   </div>
 
-  <a href="admin.html" class="admin-btn">🔐 Admin</a>
+  <a href="admin.html" class="admin-btn">🔒 Admin</a>
 
   <script>
-    // Shared localStorage keys (same keys admin uses)
     const STUDENTS_KEY = 'christmas_students';
     const ASSIGNMENTS_KEY = 'christmas_assignments';
     const USED_KEY_PREFIX = 'christmas_friend_used_';
 
-    // Default list (kept as fallback)
     let students = [
-      { id: 's1',  name: 'MUHAMMED SAHEEN NV' },
-      { id: 's2',  name: 'Navrag K' },
-      { id: 's3',  name: 'Kavya Shree KS' },
-      { id: 's4',  name: 'Vijay Sherpa' },
-      { id: 's5',  name: 'Rasvitha R' },
-      { id: 's6',  name: 'Shijin Shaji' },
-      { id: 's7',  name: 'Kevin Palakar' },
-      { id: 's8',  name: 'Melwyn Ezekiel Nelson' },
-      { id: 's9',  name: 'Alan John' },
-      { id: 's10', name: 'Jinsha P' },
-      { id: 's11', name: 'Ck Victor' },
-      { id: 's12', name: 'S. Nithya Shree' },
-      { id: 's13', name: 'Kalakotla Jonathan' },
-      { id: 's14', name: 'Staines Joy' },
-      { id: 's15', name: 'Monica P' },
-      { id: 's16', name: 'Tony Paul P' },
-      { id: 's17', name: 'Devangana M Nair' },
-      { id: 's18', name: 'Anisha Anand' },
-      { id: 's19', name: 'Kirthana B' },
-      { id: 's20', name: 'Snigdha P' },
-      { id: 's21', name: 'Asfa Naaz' },
-      { id: 's22', name: 'M Navanetha' },
-      { id: 's23', name: 'Justin Johnson' },
-      { id: 's24', name: 'Sharon Godfrey' },
-      { id: 's25', name: 'Nitin K' },
-      { id: 's26', name: 'Benet Kalunkil Babu' },
-      { id: 's27', name: 'Annette Jerry Pereira' },
-      { id: 's28', name: 'Deeksha MB' },
-      { id: 's29', name: 'Fathimath Rifa' },
-      { id: 's30', name: 'Budda Samuel Alex' },
-      { id: 's31', name: 'Calvin Richard V' },
-      { id: 's32', name: 'Siddharth L' },
-      { id: 's33', name: 'Ashwin Victor J' },
-      { id: 's34', name: 'Chantal Rachel Rebeiro' },
-      { id: 's35', name: 'Supriya Agnes J' },
-      { id: 's36', name: 'Vaishnavi R' },
-      { id: 's37', name: 'M Felix Francis' },
-      { id: 's38', name: 'K Khavya Shree' },
-      { id: 's39', name: 'Jomin S George' },
-      { id: 's40', name: 'Sebastian' },
-      { id: 's41', name: 'S Shuba Zion' },
-      { id: 's42', name: 'Mounish' },
-      { id: 's43', name: 'Poornima R' },
-      { id: 's44', name: 'Srethul' },
-      { id: 's45', name: 'Joshua' },
-      { id: 's46', name: 'Goutham' },
-      { id: 's47', name: 'Aron' },
-      { id: 's48', name: 'George' },
-      { id: 's49', name: 'Arbiya' },
-      { id: 's50', name: 'Riya' },
-      { id: 's51', name: 'Cyrus' },
-      { id: 's52', name: 'Dorjith' },
-      { id: 's53', name: 'Bharath' },
-      { id: 's54', name: 'Gowtham' },
-      { id: 's55', name: 'Supriya' },
-      { id: 's56', name: 'Nakshatra' },
-      { id: 's57', name: 'Nivedh' },
-      { id: 's58', name: 'Diaz' },
-      { id: 's59', name: 'Rebecca' },
-      { id: 's60', name: 'Nayan' },
-      { id: 's61', name: 'Ann Sital' },
-      { id: 's62', name: 'Prof.BalaSubrahmani' }
+      { id: 's1',  name: 'MUHAMMED SAHEEN NV' }, { id: 's2',  name: 'Navrag K' },
+      { id: 's3',  name: 'Kavya Shree KS' }, { id: 's4',  name: 'Vijay Sherpa' },
+      { id: 's5',  name: 'Rasvitha R' }, { id: 's6',  name: 'Shijin Shaji' },
+      { id: 's7',  name: 'Kevin Palakar' }, { id: 's8',  name: 'Melwyn Ezekiel Nelson' },
+      { id: 's9',  name: 'Alan John' }, { id: 's10', name: 'Jinsha P' },
+      { id: 's11', name: 'Ck Victor' }, { id: 's12', name: 'S. Nithya Shree' },
+      { id: 's13', name: 'Kalakotla Jonathan' }, { id: 's14', name: 'Staines Joy' },
+      { id: 's15', name: 'Monica P' }, { id: 's16', name: 'Tony Paul P' },
+      { id: 's17', name: 'Devangana M Nair' }, { id: 's18', name: 'Anisha Anand' },
+      { id: 's19', name: 'Kirthana B' }, { id: 's20', name: 'Snigdha P' },
+      { id: 's21', name: 'Asfa Naaz' }, { id: 's22', name: 'M Navanetha' },
+      { id: 's23', name: 'Justin Johnson' }, { id: 's24', name: 'Sharon Godfrey' },
+      { id: 's25', name: 'Nitin K' }, { id: 's26', name: 'Benet Kalunkil Babu' },
+      { id: 's27', name: 'Annette Jerry Pereira' }, { id: 's28', name: 'Deeksha MB' },
+      { id: 's29', name: 'Fathimath Rifa' }, { id: 's30', name: 'Budda Samuel Alex' },
+      { id: 's31', name: 'Calvin Richard V' }, { id: 's32', name: 'Siddharth L' },
+      { id: 's33', name: 'Ashwin Victor J' }, { id: 's34', name: 'Chantal Rachel Rebeiro' },
+      { id: 's35', name: 'Supriya Agnes J' }, { id: 's36', name: 'Vaishnavi R' },
+      { id: 's37', name: 'M Felix Francis' }, { id: 's38', name: 'K Khavya Shree' },
+      { id: 's39', name: 'Jomin S George' }, { id: 's40', name: 'Sebastian' },
+      { id: 's41', name: 'S Shuba Zion' }, { id: 's42', name: 'Mounish' },
+      { id: 's43', name: 'Poornima R' }, { id: 's44', name: 'Srethul' },
+      { id: 's45', name: 'Joshua' }, { id: 's46', name: 'Goutham' },
+      { id: 's47', name: 'Aron' }, { id: 's48', name: 'George' },
+      { id: 's49', name: 'Arbiya' }, { id: 's50', name: 'Riya' },
+      { id: 's51', name: 'Cyrus' }, { id: 's52', name: 'Dorjith' },
+      { id: 's53', name: 'Bharath' }, { id: 's54', name: 'Gowtham' },
+      { id: 's55', name: 'Supriya' }, { id: 's56', name: 'Nakshatra' },
+      { id: 's57', name: 'Nivedh' }, { id: 's58', name: 'Diaz' },
+      { id: 's59', name: 'Rebecca' }, { id: 's60', name: 'Nayan' },
+      { id: 's61', name: 'Ann Sital' }, { id: 's62', name: 'Prof.BalaSubrahmani' }
     ];
 
-    // Try to load students from localStorage (saved by admin)
     function loadStudentsFromStorage() {
       try {
         const raw = localStorage.getItem(STUDENTS_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          // ensure parsed looks like the expected array
-          if (Array.isArray(parsed) && parsed.length) {
-            students = parsed;
-          }
+          if (Array.isArray(parsed) && parsed.length) students = parsed;
         }
-      } catch (e) { console.warn('Failed parsing students from storage', e); }
+      } catch (e) { console.warn('Failed parsing students', e); }
     }
 
     function hasUsed(id) {
       return localStorage.getItem(USED_KEY_PREFIX + id) === 'true';
     }
 
-    // Render the student list, taking into account the global 'done' flag
     function renderStudents() {
-      loadStudentsFromStorage(); // ensure up-to-date list
+      loadStudentsFromStorage();
       const listEl = document.getElementById('studentList');
       listEl.innerHTML = '';
 
@@ -172,10 +371,9 @@
       });
     }
 
-    // animations and decorations (same logic as before)
     function createSnowflakes() {
       const snowContainer = document.getElementById('snow');
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 40; i++) {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
         snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
@@ -188,19 +386,19 @@
     }
 
     function createOrnaments() {
-      const ornaments = ['🔴', '🟢', '🔵', '🟡', '⭐', '🎁'];
-      for (let i = 0; i < 8; i++) {
+      const ornaments = ['🔴', '🟢', '🔵', '🟡', '⭐', '🎁', '🎄', '🔔', '⛄', '🎅'];
+      for (let i = 0; i < 10; i++) {
         const ornament = document.createElement('div');
         ornament.className = 'ornament';
         ornament.textContent = ornaments[Math.floor(Math.random() * ornaments.length)];
         ornament.style.left = Math.random() * 90 + '%';
         ornament.style.top = Math.random() * 80 + 10 + '%';
-        ornament.style.animationDelay = Math.random() * 3 + 's';
+        ornament.style.animationDelay = Math.random() * 4 + 's';
+        ornament.style.animationDuration = (Math.random() * 4 + 6) + 's';
         document.body.appendChild(ornament);
       }
     }
 
-    // init
     createSnowflakes();
     createOrnaments();
     renderStudents();
