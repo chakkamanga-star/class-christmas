@@ -318,42 +318,42 @@
     const STUDENTS_KEY = 'christmas_students';
 
     let assignments = {
-      's1': 'Devangana M Nair', 's2': 'Snigdha p', 's3': 'Navrag K', 's4': 'Alan John',
-      's5': 'Chantal Rachel Rebeiro', 's6': 'Nitin K', 's7': 'Nakshatra', 's8': 'Kirthana B',
-      's9': 'Melwyn Ezekiel Nelson', 's10': 'Riya', 's11': 'M Navanetha', 's12': 'Jomin S George',
-      's13': 'Ashwin Victor J', 's14': 'MUHAMMED SAHEEN NV', 's15': 'Calvin Richard V', 's16': 'Gowtham',
-      's17': 'Prof.BalaSubrahmani', 's18': 'Supriya Agnes J', 's19': 'Vijay Sherpa', 's20': 'S Shuba Zion',
-      's21': 'Kavya Shree KS', 's22': 'Jinsha P', 's23': 'Rasvitha R', 's24': 'Benet Kalunkil Babu',
-      's25': 'Nivedh', 's26': 'Shijin Shaji', 's27': 'Anisha Anand', 's28': 'S. Nithya Shree',
-      's29': 'K Khavya Shree', 's30': 'Bharath', 's31': 'Supriya', 's32': 'Poornima R',
-      's33': 'Ck Victor', 's34': 'M Felix Francis', 's35': 'Aron', 's36': 'Sebastian',
-      's37': 'Mounish', 's38': 'Monica P', 's39': 'Nayan', 's40': 'Rebecca',
-      's41': 'Kalakotla Jonathan', 's42': 'Diaz', 's43': 'Deeksha MB', 's44': 'Cyrus',
-      's45': 'Budda Samuel Alex', 's46': 'Annette Jerry Pereira', 's47': 'Tony Paul P', 's48': 'Joshua',
-      's49': 'Fathimath Rifa', 's50': 'Justin Johnson', 's51': 'Srethul', 's52': 'Vaishnavi R',
-      's53': 'Arbiya', 's54': 'Dorjith', 's55': 'Siddharth L', 's56': 'Asfa Naaz',
-      's57': 'Staines Joy', 's58': 'Kevin Palakar', 's59': 'George', 's60': 'Ann Sital',
-      's61': 'Goutham', 's62': 'Sharon Godfrey'
-    };
+  's1': 'Devangana', 's2': 'Bharath', 's3': 'Navrag', 's4': 'Alan',
+  's5': 'Chantal', 's6': 'Nitin', 's7': 'Nakshatra', 's8': 'Kirthana',
+  's9': 'Melwyn', 's10': 'Riya', 's11': 'Navanetha', 's12': 'Jomin',
+  's13': 'Ashwin', 's14': 'Saheen', 's15': 'Calvin', 's16': 'Victor',
+  's17': 'Snigdha', 's18': 'Supriya', 's19': 'Vijay', 's20': 'Shuba',
+  's21': 'Kavya', 's22': 'Jinsha', 's23': 'Rasvitha', 's24': 'Benet',
+  's25': 'Cyrus', 's26': 'BalaSubrahmani', 's27': 'Anisha', 's28': 'Nithya',
+  's29': 'Khavya', 's30': 'Shijin', 's31': 'Goutham Sathya', 's32': 'Poornima',
+  's33': 'Nivedh', 's34': 'Felix', 's35': 'Aron', 's36': 'Sebastian',
+  's37': 'Mounish', 's38': 'Monica', 's39': 'Nayan', 's40': 'Rebecca',
+  's41': 'Jonathan', 's42': 'Diaz', 's43': 'Deeksha', 's44': 'Sharon',
+  's45': 'Alex', 's46': 'Annette', 's47': 'Tony', 's48': 'Justin',
+  's49': 'Rifa', 's50': 'Joshua', 's51': 'Srethul', 's52': 'Vaishnavi',
+  's53': 'Arbiya', 's54': 'Dorjith', 's55': 'Siddharth', 's56': 'Asfa',
+  's57': 'Gowtham P', 's58': 'Kevin', 's59': 'George', 's60': 'Ann Sital'
+};
+
 
     let studentNames = {
-      's1': 'MUHAMMED SAHEEN NV', 's2': 'Navrag K', 's3': 'Kavya Shree KS', 's4': 'Vijay Sherpa',
-      's5': 'Rasvitha R', 's6': 'Shijin Shaji', 's7': 'Kevin Palakar', 's8': 'Melwyn Ezekiel Nelson',
-      's9': 'Alan John', 's10': 'Jinsha P', 's11': 'Ck Victor', 's12': 'S. Nithya Shree',
-      's13': 'Kalakotla Jonathan', 's14': 'Staines Joy', 's15': 'Monica P', 's16': 'Tony Paul P',
-      's17': 'Devangana M Nair', 's18': 'Anisha Anand', 's19': 'Kirthana B', 's20': 'Snigdha P',
-      's21': 'Asfa Naaz', 's22': 'M Navanetha', 's23': 'Justin Johnson', 's24': 'Sharon Godfrey',
-      's25': 'Nitin K', 's26': 'Benet Kalunkil Babu', 's27': 'Annette Jerry Pereira', 's28': 'Deeksha MB',
-      's29': 'Fathimath Rifa', 's30': 'Budda Samuel Alex', 's31': 'Calvin Richard V', 's32': 'Siddharth L',
-      's33': 'Ashwin Victor J', 's34': 'Chantal Rachel Rebeiro', 's35': 'Supriya Agnes J', 's36': 'Vaishnavi R',
-      's37': 'M Felix Francis', 's38': 'K Khavya Shree', 's39': 'Jomin S George', 's40': 'Sebastian',
-      's41': 'S Shuba Zion', 's42': 'Mounish', 's43': 'Poornima R', 's44': 'Srethul',
-      's45': 'Joshua', 's46': 'Goutham', 's47': 'Aron', 's48': 'George',
-      's49': 'Arbiya', 's50': 'Riya', 's51': 'Cyrus', 's52': 'Dorjith',
-      's53': 'Bharath', 's54': 'Gowtham', 's55': 'Supriya', 's56': 'Nakshatra',
-      's57': 'Nivedh', 's58': 'Diaz', 's59': 'Rebecca', 's60': 'Nayan',
-      's61': 'Ann Sital', 's62': 'Prof.BalaSubrahmani'
-    };
+  's1': 'Saheen', 's2': 'Navrag', 's3': 'Kavya', 's4': 'Vijay',
+  's5': 'Rasvitha', 's6': 'Shijin', 's7': 'Kevin', 's8': 'Melwyn',
+  's9': 'Alan', 's10': 'Jinsha', 's11': 'Victor', 's12': 'Nithya',
+  's13': 'Jonathan', 's14': 'BalaSubrahmani', 's15': 'Monica', 's16': 'Tony',
+  's17': 'Devangana', 's18': 'Anisha', 's19': 'Kirthana', 's20': 'Snigdha',
+  's21': 'Asfa', 's22': 'Navanetha', 's23': 'Justin', 's24': 'Sharon',
+  's25': 'Nitin', 's26': 'Benet', 's27': 'Annette', 's28': 'Deeksha',
+  's29': 'Rifa', 's30': 'Alex', 's31': 'Calvin', 's32': 'Siddharth',
+  's33': 'Ashwin', 's34': 'Chantal', 's35': 'Supriya', 's36': 'Vaishnavi',
+  's37': 'Felix', 's38': 'Khavya', 's39': 'Jomin', 's40': 'Sebastian',
+  's41': 'Shuba', 's42': 'Mounish', 's43': 'Poornima', 's44': 'Srethul',
+  's45': 'Joshua', 's46': 'Goutham Sathya', 's47': 'Aron', 's48': 'George',
+  's49': 'Arbiya', 's50': 'Riya', 's51': 'Cyrus', 's52': 'Dorjith',
+  's53': 'Bharath', 's54': 'Gowtham P', 's55': 'Ann Sital', 's56': 'Nakshatra',
+  's57': 'Nivedh', 's58': 'Diaz', 's59': 'Rebecca', 's60': 'Nayan'
+};
+
 
     function loadFromStorage() {
       try {
