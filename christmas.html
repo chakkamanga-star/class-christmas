@@ -441,20 +441,28 @@ function renderStudents() {
   const listEl = document.getElementById('studentList');
   listEl.innerHTML = '';
 
-  // global-done flag and which id was opened on this device
-  const done = localStorage.getItem('christmas_friend_done') === 'true';
+  // read opened id first
   const openedId = localStorage.getItem('christmas_friend_opened');
+
+  // only consider "done" if the openedId exists — prevents stale/global flag from locking everyone
+  let done = localStorage.getItem('christmas_friend_done') === 'true' && !!openedId;
+
+  // defensive: if the done flag is set but there's no openedId, clear the stale flag
+  if (localStorage.getItem('christmas_friend_done') === 'true' && !openedId) {
+    localStorage.removeItem('christmas_friend_done');
+    done = false;
+  }
 
   students.forEach(student => {
     const used = hasUsed(student.id);
 
-    // If done === true, lock everything (but we'll mark which one they opened).
-    // If done === false, behave as before (each name individually disabled if used).
+    // If done === true, lock everything (except we still show which one was opened)
+    // If done === false, lock only per-id used ones.
     const disabled = done ? true : used;
 
     const a = document.createElement('a');
     a.className = 'student' + (disabled ? ' disabled' : '');
-    
+
     // If this is the one they opened, show it clearly
     if (openedId && student.id === openedId) {
       a.textContent = student.name + ' — (Your pick)';
@@ -474,7 +482,6 @@ function renderStudents() {
     listEl.appendChild(a);
   });
 }
-
 
     renderStudents();
   </script>
