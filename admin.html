@@ -577,23 +577,29 @@
       renderStudents();
     }
 
-    function resetAllReveals() {
-      if (!confirm('Reset all reveals? Everyone can open their names again.')) return;
-      students.forEach(student => {
-        localStorage.removeItem(USED_KEY_PREFIX + student.id);
-      });
-      localStorage.removeItem('christmas_friend_done');
-      localStorage.removeItem('christmas_friend_opened');
-      alert('✅ All reveals have been reset!');
-    }
+   function resetAllReveals() {
+  if (!confirm('Reset all reveals? Everyone can open their names again.')) return;
+  
+  // Remove individual used keys
+  students.forEach(student => {
+    localStorage.removeItem(USED_KEY_PREFIX + student.id);
+  });
+  
+  // IMPORTANT: Also remove the global done flag and opened ID
+  localStorage.removeItem('christmas_friend_done');
+  localStorage.removeItem('christmas_friend_opened');
+  
+  alert('✅ All reveals have been reset!');
+}
 
     function resetEverything() {
-      if (!confirm('⚠️ This will delete ALL data! Are you absolutely sure?')) return;
-      if (!confirm('Final confirmation: Delete everything?')) return;
-      localStorage.clear();
-      alert('✅ Everything has been reset!');
-      location.reload();
-    }
+  if (!confirm('⚠️ This will delete ALL data! Are you absolutely sure?')) return;
+  if (!confirm('Final confirmation: Delete everything?')) return;
+  
+  localStorage.clear();
+  alert('✅ Everything has been reset!');
+  location.reload();
+}
 
     function createSecurityIcons() {
       const icons = ['🔐', '🔒', '🛡️', '🔑', '⚙️'];
