@@ -288,6 +288,18 @@
   <a href="admin.html" class="admin-btn">🔒 Admin</a>
 
   <script>
+     (function() {
+    const RESET_VERSION = 'v2'; // Change this to 'v3', 'v4', etc. if you need to reset again
+    const resetKey = 'christmas_reset_version';
+    
+    if (localStorage.getItem(resetKey) !== RESET_VERSION) {
+      // Clear the problematic flags
+      localStorage.removeItem('christmas_friend_done');
+      localStorage.removeItem('christmas_friend_opened');
+      // Mark as reset
+      localStorage.setItem(resetKey, RESET_VERSION);
+    }
+  })();
     const STUDENTS_KEY = 'christmas_students';
     const ASSIGNMENTS_KEY = 'christmas_assignments';
     const USED_KEY_PREFIX = 'christmas_friend_used_';
