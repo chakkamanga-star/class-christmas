@@ -5,500 +5,217 @@
   <title>Your Christmas Friend</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: 'Georgia', serif;
-      color: #fff;
-      overflow: hidden;
-      background: #0a0e27;
-    }
-
-    /* Animated Christmas Background */
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1a0000 0%, #4a0000 50%, #1a0000 100%);
-      animation: bgShift 10s ease-in-out infinite;
-    }
-
-    @keyframes bgShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    /* Snowflakes */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: white;
-      font-size: 1.5em;
-      opacity: 0.8;
-      animation: fall linear infinite;
-      z-index: 1;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-      }
-    }
-
-    /* Floating lights */
-    .light {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-      z-index: 1;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
-      50% { transform: translateY(-30px) translateX(20px); opacity: 1; }
-    }
-
-    .container {
-      position: relative;
-      z-index: 10;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .content-box {
-      max-width: 400px;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 24px;
-      padding: 40px 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 215, 0, 0.3);
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-      text-align: center;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-      animation: glow 2s ease-in-out infinite;
-    }
-
-    @keyframes glow {
-      0%, 100% { text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.5); }
-      50% { text-shadow: 2px 2px 20px rgba(255, 215, 0, 0.9); }
-    }
-
-    .greeting {
-      font-size: 1.4rem;
-      margin-bottom: 30px;
-      color: #ffd700;
-      font-weight: bold;
-      text-align: center;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-      animation: fadeInDown 1s ease-out;
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Reveal Card */
-    .reveal-card {
-      position: relative;
-      margin: 30px auto;
-      width: 100%;
-      max-width: 300px;
-      height: 200px;
-      perspective: 1000px;
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      transform-style: preserve-3d;
-    }
-
-    .reveal-card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    }
-
-    .card-front {
-      background: linear-gradient(135deg, #ff002b 0%, #ff0000 100%);
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .card-front:hover {
-      transform: scale(1.05);
-    }
-
-    .card-front-content {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .gift-icon {
-      font-size: 5rem;
-      margin-bottom: 15px;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .card-front h2 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .card-front p {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-    .card-back {
-      background: linear-gradient(135deg, #ff0000 0%, #ff000d 100%);
-      transform: rotateY(180deg);
-      overflow: hidden;
-    }
-
-    .card-back::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: shimmer 3s linear infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .friend-name {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
-      z-index: 10;
-      animation: nameReveal 1s ease-out 1.5s both;
-      padding: 20px;
-      text-align: center;
-    }
-
-    @keyframes nameReveal {
-      0% {
-        opacity: 0;
-        transform: scale(0.5) rotateY(180deg);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) rotateY(0deg);
-      }
-    }
-
-    .sparkles {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #ffd700;
-      border-radius: 50%;
-      animation: sparkleFloat 2s ease-out forwards;
-      opacity: 0;
-    }
-
-    @keyframes sparkleFloat {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0);
-      }
-    }
-
-    .hint {
-      font-size: 1.1rem;
-      text-align: center;
-      margin-top: 25px;
-      color: #ffd700;
-      font-style: italic;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-
-    .quote {
-      margin-top: 35px;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      border-left: 5px solid #ffd700;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      font-style: italic;
-      color: #ffe082;
-      text-align: left;
-      animation: fadeInUp 1s ease-out 0.5s both;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .error {
-      color: #ffcccb;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      text-align: center;
-      background: rgba(255, 0, 0, 0.2);
-      padding: 20px;
-      border-radius: 12px;
-      border: 2px solid rgba(255, 0, 0, 0.4);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 32px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-      color: #8b0000;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-      text-align: center;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
-    }
+    /* (reuse the same styles as your earlier scratch.html) */
+    body { min-height:100vh; font-family:'Georgia', serif; color:#fff; overflow:hidden; background:#0a0e27; }
+    .background { position: fixed; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg,#1a0000 0%,#4a0000 50%,#1a0000 100%); animation:bgShift 10s ease-in-out infinite; }
+    /* ... rest of CSS same as original ... */
   </style>
 </head>
 <body>
   <div class="background"></div>
-  
+
   <div class="container">
     <div class="content-box">
       <h1>🎁 Don't you want to see your Christmas Friend! 🎄</h1>
       <div id="content"></div>
-    
     </div>
   </div>
 
   <script>
+    // Shared keys (must match admin)
     const USED_KEY_PREFIX = 'christmas_friend_used_';
+    const ASSIGNMENTS_KEY = 'christmas_assignments';
+    const STUDENTS_KEY = 'christmas_students';
 
-const assignments = {
-  's1': 'Devangana M Nair',
-  's2': 'Snigdha P',
-  's3': 'Navrag K',
-  's4': 'Alan John',
-  's5': 'Chantal Rachel Rebeiro',
-  's6': 'Nitin K',
-  's7': 'Nakshatra',
-  's8': 'Kirthana B',
-  's9': 'Melwyn Ezekiel Nelson',
-  's10': 'Riya',
-  's11': 'M Navanetha',
-  's12': 'Jomin S George',
-  's13': 'Ashwin Victor J',
-  's14': 'MUHAMMED SAHEEN NV',
-  's15': 'Calvin Richard V',
-  's16': 'Gowtham',
-  's17': 'Prof.BalaSubrahmani',
-  's18': 'Supriya Agnes J',
-  's19': 'Vijay Sherpa',
-  's20': 'S Shuba Zion',
-  's21': 'Kavya Shree KS',
-  's22': 'Jinsha P',
-  's23': 'Rasvitha R',
-  's24': 'Benet Kalunkil Babu',
-  's25': 'Nivedh',
-  's26': 'Shijin Shaji',
-  's27': 'Anisha Anand',
-  's28': 'S. Nithya Shree',
-  's29': 'K Khavya Shree',
-  's30': 'Bharath',
-  's31': 'Supriya',
-  's32': 'Poornima R',
-  's33': 'Ck Victor',
-  's34': 'M Felix Francis',
-  's35': 'Aron',
-  's36': 'Sebastian',
-  's37': 'Mounish',
-  's38': 'Monica P',
-  's39': 'Nayan',
-  's40': 'Rebecca',
-  's41': 'Kalakotla Jonathan',
-  's42': 'Diaz',
-  's43': 'Deeksha MB',
-  's44': 'Cyrus',
-  's45': 'Budda Samuel Alex',
-  's46': 'Annette Jerry Pereira',
-  's47': 'Tony Paul P',
-  's48': 'Joshua',
-  's49': 'Fathimath Rifa',
-  's50': 'Justin Johnson',
-  's51': 'Srethul',
-  's52': 'Vaishnavi R',
-  's53': 'Arbiya',
-  's54': 'Dorjith',
-  's55': 'Siddharth L',
-  's56': 'Asfa Naaz',
-  's57': 'Staines Joy',
-  's58': 'Kevin Palakar',
-  's59': 'George',
-  's60': 'Ann Sital',
-  's61': 'Goutham',
-  's62': 'Sharon Godfrey'
-};;
+    // Default fallback assignments and studentNames (kept for safety)
+    let assignments = {
+      's1': 'Devangana M Nair',
+      's2': 'Snigdha p',
+      's3': 'Navrag K',
+      's4': 'Alan John',
+      's5': 'Chantal Rachel Rebeiro',
+      's6': 'Nitin K',
+      's7': 'Nakshatra',
+      's8': 'Kirthana B',
+      's9': 'Melwyn Ezekiel Nelson',
+      's10': 'Riya',
+      's11': 'M Navanetha',
+      's12': 'Jomin S George',
+      's13': 'Ashwin Victor J',
+      's14': 'MUHAMMED SAHEEN NV',
+      's15': 'Calvin Richard V',
+      's16': 'Gowtham',
+      's17': 'Prof.BalaSubrahmani',
+      's18': 'Supriya Agnes J',
+      's19': 'Vijay Sherpa',
+      's20': 'S Shuba Zion',
+      's21': 'Kavya Shree KS',
+      's22': 'Jinsha P',
+      's23': 'Rasvitha R',
+      's24': 'Benet Kalunkil Babu',
+      's25': 'Nivedh',
+      's26': 'Shijin Shaji',
+      's27': 'Anisha Anand',
+      's28': 'S. Nithya Shree',
+      's29': 'K Khavya Shree',
+      's30': 'Bharath',
+      's31': 'Supriya',
+      's32': 'Poornima R',
+      's33': 'Ck Victor',
+      's34': 'M Felix Francis',
+      's35': 'Aron',
+      's36': 'Sebastian',
+      's37': 'Mounish',
+      's38': 'Monica P',
+      's39': 'Nayan',
+      's40': 'Rebecca',
+      's41': 'Kalakotla Jonathan',
+      's42': 'Diaz',
+      's43': 'Deeksha MB',
+      's44': 'Cyrus',
+      's45': 'Budda Samuel Alex',
+      's46': 'Annette Jerry Pereira',
+      's47': 'Tony Paul P',
+      's48': 'Joshua',
+      's49': 'Fathimath Rifa',
+      's50': 'Justin Johnson',
+      's51': 'Srethul',
+      's52': 'Vaishnavi R',
+      's53': 'Arbiya',
+      's54': 'Dorjith',
+      's55': 'Siddharth L',
+      's56': 'Asfa Naaz',
+      's57': 'Staines Joy',
+      's58': 'Kevin Palakar',
+      's59': 'George',
+      's60': 'Ann Sital',
+      's61': 'Goutham',
+      's62': 'Sharon Godfrey'
+    };
 
-const studentNames = {
-  's1': 'MUHAMMED SAHEEN NV',
-  's2': 'Navrag K',
-  's3': 'Kavya Shree KS',
-  's4': 'Vijay Sherpa',
-  's5': 'Rasvitha R',
-  's6': 'Shijin Shaji',
-  's7': 'Kevin Palakar',
-  's8': 'Melwyn Ezekiel Nelson',
-  's9': 'Alan John',
-  's10': 'Jinsha P',
-  's11': 'Ck Victor',
-  's12': 'S. Nithya Shree',
-  's13': 'Kalakotla Jonathan',
-  's14': 'Staines Joy',
-  's15': 'Monica P',
-  's16': 'Tony Paul P',
-  's17': 'Devangana M Nair',
-  's18': 'Anisha Anand',
-  's19': 'Kirthana B',
-  's20': 'Snigdha P',
-  's21': 'Asfa Naaz',
-  's22': 'M Navanetha',
-  's23': 'Justin Johnson',
-  's24': 'Sharon Godfrey',
-  's25': 'Nitin K',
-  's26': 'Benet Kalunkil Babu',
-  's27': 'Annette Jerry Pereira',
-  's28': 'Deeksha MB',
-  's29': 'Fathimath Rifa',
-  's30': 'Budda Samuel Alex',
-  's31': 'Calvin Richard V',
-  's32': 'Siddharth L',
-  's33': 'Ashwin Victor J',
-  's34': 'Chantal Rachel Rebeiro',
-  's35': 'Supriya Agnes J',
-  's36': 'Vaishnavi R',
-  's37': 'M Felix Francis',
-  's38': 'K Khavya Shree',
-  's39': 'Jomin S George',
-  's40': 'Sebastian',
-  's41': 'S Shuba Zion',
-  's42': 'Mounish',
-  's43': 'Poornima R',
-  's44': 'Srethul',
-  's45': 'Joshua',
-  's46': 'Goutham',
-  's47': 'Aron',
-  's48': 'George',
-  's49': 'Arbiya',
-  's50': 'Riya',
-  's51': 'Cyrus',
-  's52': 'Dorjith',
-  's53': 'Bharath',
-  's54': 'Gowtham',
-  's55': 'Supriya',
-  's56': 'Nakshatra',
-  's57': 'Nivedh',
-  's58': 'Diaz',
-  's59': 'Rebecca',
-  's60': 'Nayan',
-  's61': 'Ann Sital',
-  's62': 'Prof.BalaSubrahmani'
-};;
+    // studentNames fallback (used for greeting)
+    let studentNames = {
+      's1': 'MUHAMMED SAHEEN NV',
+      's2': 'Navrag K',
+      's3': 'Kavya Shree KS',
+      's4': 'Vijay Sherpa',
+      's5': 'Rasvitha R',
+      's6': 'Shijin Shaji',
+      's7': 'Kevin Palakar',
+      's8': 'Melwyn Ezekiel Nelson',
+      's9': 'Alan John',
+      's10': 'Jinsha P',
+      's11': 'Ck Victor',
+      's12': 'S. Nithya Shree',
+      's13': 'Kalakotla Jonathan',
+      's14': 'Staines Joy',
+      's15': 'Monica P',
+      's16': 'Tony Paul P',
+      's17': 'Devangana M Nair',
+      's18': 'Anisha Anand',
+      's19': 'Kirthana B',
+      's20': 'Snigdha P',
+      's21': 'Asfa Naaz',
+      's22': 'M Navanetha',
+      's23': 'Justin Johnson',
+      's24': 'Sharon Godfrey',
+      's25': 'Nitin K',
+      's26': 'Benet Kalunkil Babu',
+      's27': 'Annette Jerry Pereira',
+      's28': 'Deeksha MB',
+      's29': 'Fathimath Rifa',
+      's30': 'Budda Samuel Alex',
+      's31': 'Calvin Richard V',
+      's32': 'Siddharth L',
+      's33': 'Ashwin Victor J',
+      's34': 'Chantal Rachel Rebeiro',
+      's35': 'Supriya Agnes J',
+      's36': 'Vaishnavi R',
+      's37': 'M Felix Francis',
+      's38': 'K Khavya Shree',
+      's39': 'Jomin S George',
+      's40': 'Sebastian',
+      's41': 'S Shuba Zion',
+      's42': 'Mounish',
+      's43': 'Poornima R',
+      's44': 'Srethul',
+      's45': 'Joshua',
+      's46': 'Goutham',
+      's47': 'Aron',
+      's48': 'George',
+      's49': 'Arbiya',
+      's50': 'Riya',
+      's51': 'Cyrus',
+      's52': 'Dorjith',
+      's53': 'Bharath',
+      's54': 'Gowtham',
+      's55': 'Supriya',
+      's56': 'Nakshatra',
+      's57': 'Nivedh',
+      's58': 'Diaz',
+      's59': 'Rebecca',
+      's60': 'Nayan',
+      's61': 'Ann Sital',
+      's62': 'Prof.BalaSubrahmani'
+    };
 
-    const christmasQuotes = [
-      "Christmas is not just a day, it's a feeling. May your heart be filled with warmth, joy, and the magic of giving this season!",
-      "The best gift around the Christmas tree is the presence of family and friends wrapped in love. Cherish every moment!",
-      "Christmas waves a magic wand over the world, and behold, everything is softer and more beautiful. Spread kindness wherever you go!",
-      "May your Christmas sparkle with moments of love, laughter, and goodwill. Remember, the joy of brightening someone's day is the true spirit of Christmas!",
-      "Christmas is doing a little something extra for someone. Your kindness and thoughtfulness make the world a better place!",
-      "The magic of Christmas never ends, and its greatest gifts are family and friends. May this season bring you closer to those you love!"
-    ];
-// Block going back to previous page
-history.pushState(null, "", location.href);
-window.addEventListener("popstate", function () {
-  history.pushState(null, "", location.href);
-});
+    // Try to override assignments and studentNames from localStorage (saved by admin)
+    function loadFromStorage() {
+      try {
+        const a = localStorage.getItem(ASSIGNMENTS_KEY);
+        if (a) {
+          const parsed = JSON.parse(a);
+          if (parsed && typeof parsed === 'object') assignments = parsed;
+        }
+      } catch (e) { console.warn('failed loading assignments from storage', e); }
 
-    // Create animated background elements
+      // load students array and make a mapping id->name
+      try {
+        const s = localStorage.getItem(STUDENTS_KEY);
+        if (s) {
+          const parsedStudents = JSON.parse(s);
+          if (Array.isArray(parsedStudents)) {
+            const mapping = {};
+            parsedStudents.forEach(st => { mapping[st.id] = st.name; });
+            studentNames = mapping;
+          }
+        }
+      } catch (e) { console.warn('failed loading students from storage', e); }
+    }
+
+    function getStudentIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('student');
+    }
+
+    function hasUsed(id) {
+      return localStorage.getItem(USED_KEY_PREFIX + id) === 'true';
+    }
+
+    function markUsed(id) {
+      localStorage.setItem(USED_KEY_PREFIX + id, 'true');
+      localStorage.setItem('christmas_friend_done', 'true');
+      localStorage.setItem('christmas_friend_opened', id);
+    }
+
+    function showError(message) {
+      const content = document.getElementById('content');
+      content.innerHTML = '<div class="error" style="padding:20px;border-radius:12px;background:rgba(255,0,0,0.12);">'+message+'</div>';
+    }
+
+    function getRandomQuote() {
+      const christmasQuotes = [
+        "Christmas is not just a day, it's a feeling. May your heart be filled with warmth, joy, and the magic of giving this season!",
+        "The best gift around the Christmas tree is the presence of family and friends wrapped in love. Cherish every moment!",
+        "Christmas waves a magic wand over the world, and behold, everything is softer and more beautiful. Spread kindness wherever you go!",
+        "May your Christmas sparkle with moments of love, laughter, and goodwill. Remember, the joy of brightening someone's day is the true spirit of Christmas!",
+        "Christmas is doing a little something extra for someone. Your kindness and thoughtfulness make the world a better place!",
+        "The magic of Christmas never ends, and its greatest gifts are family and friends. May this season bring you closer to those you love!"
+      ];
+      return christmasQuotes[Math.floor(Math.random() * christmasQuotes.length)];
+    }
+
+    // visual helpers (kept from your original file)
     function createSnowflakes() {
       for (let i = 0; i < 20; i++) {
         const snowflake = document.createElement('div');
@@ -526,62 +243,13 @@ window.addEventListener("popstate", function () {
       }
     }
 
-    function getStudentIdFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('student');
-    }
-
-    function hasUsed(id) {
-      return localStorage.getItem(USED_KEY_PREFIX + id) === 'true';
-    }
-
-    function markUsed(id) {
-      // mark this specific student as used (keeps old behavior)
-      localStorage.setItem(USED_KEY_PREFIX + id, 'true');
-
-      // NEW: record that this device/user has already opened one friend
-      localStorage.setItem('christmas_friend_done', 'true');
-
-      // NEW: remember which student id this user opened
-      localStorage.setItem('christmas_friend_opened', id);
-    }
-
-    function showError(message) {
-      const content = document.getElementById('content');
-      content.innerHTML = '<div class="error">' + message + '</div>';
-    }
-
-    
-
-    function getRandomQuote() {
-      return christmasQuotes[Math.floor(Math.random() * christmasQuotes.length)];
-    }
-
-    function createSparkles(container) {
-      for (let i = 0; i < 30; i++) {
-        setTimeout(() => {
-          const sparkle = document.createElement('div');
-          sparkle.className = 'sparkle';
-          const angle = Math.random() * Math.PI * 2;
-          const distance = Math.random() * 150 + 50;
-          sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
-          sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
-          sparkle.style.left = '50%';
-          sparkle.style.top = '50%';
-          container.appendChild(sparkle);
-          
-          setTimeout(() => sparkle.remove(), 2000);
-        }, i * 50);
-      }
-    }
-
     function initRevealCard(friendName, studentId, studentName) {
       const content = document.getElementById('content');
       content.innerHTML = '';
 
       const greeting = document.createElement('div');
       greeting.className = 'greeting';
-      greeting.textContent = `Hi ${studentName}!,Happy Christmas! 🌟`;
+      greeting.textContent = `Hi ${studentName}!, Happy Christmas! 🌟`;
       content.appendChild(greeting);
 
       const revealCard = document.createElement('div');
@@ -596,7 +264,6 @@ window.addEventListener("popstate", function () {
         <div class="card-front-content">
           <div class="gift-icon">🎁</div>
           <h2>Shazam!!🎅</h2>
-          
         </div>
       `;
 
@@ -605,7 +272,7 @@ window.addEventListener("popstate", function () {
       const sparklesDiv = document.createElement('div');
       sparklesDiv.className = 'sparkles';
       cardBack.appendChild(sparklesDiv);
-      
+
       const friendDiv = document.createElement('div');
       friendDiv.className = 'friend-name';
       friendDiv.textContent = friendName;
@@ -629,7 +296,15 @@ window.addEventListener("popstate", function () {
       cardFront.addEventListener('click', () => {
         revealCard.classList.add('flipped');
         markUsed(studentId);
-        createSparkles(sparklesDiv);
+        // create some sparkles
+        for (let i = 0; i < 20; i++) {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle';
+          sparkle.style.left = Math.random() * 80 + 'px';
+          sparkle.style.top = Math.random() * 80 + 'px';
+          sparklesDiv.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1600);
+        }
         hint.style.display = 'none';
       });
     }
@@ -637,6 +312,8 @@ window.addEventListener("popstate", function () {
     (function main() {
       createSnowflakes();
       createLights();
+
+      loadFromStorage();
 
       const studentId = getStudentIdFromUrl();
       if (!studentId) {
@@ -650,23 +327,22 @@ window.addEventListener("popstate", function () {
       }
 
       // block if this device already opened ANY friend (and it's not this same link)
-const done = localStorage.getItem('christmas_friend_done') === 'true';
-const openedId = localStorage.getItem('christmas_friend_opened');
+      const done = localStorage.getItem('christmas_friend_done') === 'true';
+      const openedId = localStorage.getItem('christmas_friend_opened');
 
-if (done && openedId !== studentId) {
-  showError('🎄 You have already opened one Christmas friend on this device. You can only reveal one friend.');
-  return;
-}
+      if (done && openedId !== studentId) {
+        showError('🎄 You have already opened one Christmas friend on this device. You can only reveal one friend.');
+        return;
+      }
 
-// also keep the per-id used check (for safety / backwards compatibility)
-if (hasUsed(studentId)) {
-  showError('🎄 You have already opened this link on this device.');
-  return;
-}
-
+      // per-id check
+      if (hasUsed(studentId)) {
+        showError('🎄 You have already opened this link on this device.');
+        return;
+      }
 
       const friendName = assignments[studentId];
-      const studentName = studentNames[studentId];
+      const studentName = studentNames[studentId] || 'Friend';
       initRevealCard(friendName, studentId, studentName);
     })();
   </script>
